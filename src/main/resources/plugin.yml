@@ -1,0 +1,23 @@
+name: WorldChatFormats
+main: com.lgdxcompany.worldchatformats.chat_formater_addon_for_chatmanger
+version: 1.0
+api-version: 1.20
+description: Custom chat formatter for specific worlds
+author: AhmedLegend
+softdepend: [Multiverse-Core, PlaceholderAPI, ChatManager, DeluxeMenus, Vault, Bedwars1058, PerWorldPlugins, HolographicDisplays, SuperVanish, ViaVersion, ViaBackwards, ViaRewind, LilyPad-Connect, LuckPerms]
+commands:
+  worldchatformat:
+    description: "Main command for chat formatting"
+    usage: "/worldchatformat <reload|toggleDefaultChatFormat|toggleWorldChatFormat|toggleGroupRankFormat>"
+  wcf:
+    description: "Alias for worldchatformat"
+    usage: "/wcf <reload|toggleDefaultChatFormat|toggleWorldChatFormat|toggleGroupRankFormat>"
+  toggleDefaultChatFormat:
+    description: "Toggles default chat format"
+    usage: "/toggleDefaultChatFormat"
+  toggleWorldChatFormat:
+    description: "Toggles world chat format"
+    usage: "/toggleWorldChatFormat"
+  toggleGroupRankFormat:
+    description: "Toggles group rank format"
+    usage: "/toggleGroupRankFormat"

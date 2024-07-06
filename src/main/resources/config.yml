@@ -1,0 +1,17 @@
+# Config
+# You can edit it with any placeholder format do you want But make sure you are add the format correct to aviod problems
+default-chat-format:
+  enabled: false
+  format: "%vault_prefix% | %luckperms_suffix%%player_name% &9> &7%message%"
+
+world-chat-formats:
+  enabled: true
+  formats:
+    ExampleWorld: "%vault_prefix% | %luckperms_suffix%%player_name% &9> &7%message%"
+    ExampleWorld2: "%bw1058_player_level%%vault_prefix% | %luckperms_suffix%%player_name% &9> &7%message%"
+    ExamplWorld3: "%bw1058_player_level%%vault_prefix% | %luckperms_suffix%%player_name% &9> &7%message%"
+
+group-rank-formats:
+  enabled: false
+  formats:
+    Example: "%vault_prefix% | %luckperms_suffix%%player_name% &9> &7%message%"

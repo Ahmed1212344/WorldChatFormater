@@ -1,0 +1,33 @@
+# message Configuration
+plugin-prefix: "&7[&6ChatFormatter&7] "
+format-apply: "&aFormat applied successfully."
+format-error: "&cYou don't have permission to do this."
+toggle-default-chat-format: "&aDefault chat format toggled."
+toggle-world-chat-format: "&aWorld chat format toggled."
+toggle-group-rank-format: "&aGroup rank chat format toggled."
+
+# Command messages
+command:
+  usage: "&eUsage: /worldchatformat <reload>"
+  reload: "&aChat formats reloaded."
+  invalid: "&cInvalid command. Use /worldchatformat <reload>."
+  no-permission: "&cYou do not have permission to perform this command."
+  player-only: "&cThis command can only be used by players."
+  list:
+    header: "&6Available Commands:"
+    reload: "&6/wcf reload &7- Reloads the chat formats"
+    toggleDefaultChatFormat: "&6/wcf toggleDefaultChatFormat &7- Toggles the default chat format"
+    toggleWorldChatFormat: "&6/wcf toggleWorldChatFormat &7- Toggles the world chat format"
+    toggleGroupRankFormat: "&6/wcf toggleGroupRankFormat &7- Toggles the group rank chat format"
+
+toggle:
+  group-rank-format: "&eGroup rank format has been "
+  world-chat-format: "&eWorld chat format has been "
+  default-chat-format: "&eDefault chat format has been "
+  enabled: "&aenabled."
+  disabled: "&cdisabled."
+
+# DONT EDIT IT
+permission-list:
+  - "worldchatformat.reload"
+  - "worldchatformat.toggle"
