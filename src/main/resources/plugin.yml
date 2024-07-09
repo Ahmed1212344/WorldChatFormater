@@ -4,6 +4,7 @@ version: 1.0
 api-version: 1.20
 description: Custom chat formatter for specific worlds
 author: AhmedLegend
+depend: [PlaceholderAPI,LuckPerms,Vault]
 softdepend: [Multiverse-Core, PlaceholderAPI, ChatManager, DeluxeMenus, Vault, Bedwars1058, PerWorldPlugins, HolographicDisplays, SuperVanish, ViaVersion, ViaBackwards, ViaRewind, LilyPad-Connect, LuckPerms]
 commands:
   worldchatformat:
