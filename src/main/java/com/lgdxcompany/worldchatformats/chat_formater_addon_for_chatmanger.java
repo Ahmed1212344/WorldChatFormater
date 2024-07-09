@@ -1,5 +1,8 @@
 package com.lgdxcompany.worldchatformats;
 
+import com.lgdxcompany.worldchatformats.api.WorldChatFormatterAPI;
+import com.lgdxcompany.worldchatformats.api.WorldChatFormatterAPIImpl;
+import com.lgdxcompany.worldchatformats.api.WorldChatFormatterAPIProvider;
 import net.luckperms.api.LuckPerms;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -51,6 +54,9 @@ public class chat_formater_addon_for_chatmanger extends JavaPlugin implements Li
 
     @Override
     public void onEnable() {
+        // Register API implementation
+        WorldChatFormatterAPI chatFormatterAPI = new WorldChatFormatterAPIImpl();
+        WorldChatFormatterAPIProvider.registerAPI(chatFormatterAPI);
         // Save default config if it doesn't exist
         saveDefaultConfig();
 
