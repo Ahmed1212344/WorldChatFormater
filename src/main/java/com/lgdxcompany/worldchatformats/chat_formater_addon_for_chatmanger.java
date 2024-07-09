@@ -1,8 +1,6 @@
 package com.lgdxcompany.worldchatformats;
 
-import me.clip.placeholderapi.PlaceholderAPI;
 import net.luckperms.api.LuckPerms;
-import net.luckperms.api.model.user.User;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
@@ -47,10 +45,33 @@ public class chat_formater_addon_for_chatmanger extends JavaPlugin implements Li
     private FileConfiguration messagesConfig;
     private File messagesFile;
 
+    private LegacyChatFormatterHandler legacyChatFormatterHandler;
+    private ChatFormatterHandler chatFormatterHandler;
+
+
     @Override
     public void onEnable() {
         // Save default config if it doesn't exist
         saveDefaultConfig();
+
+        // Check server version
+        String version = Bukkit.getServer().getClass().getPackage().getName().split("\\.")[3];
+
+        // Initialize appropriate chat formatter handler based on server version
+        if (version.startsWith("v1_8") || version.startsWith("v1_21")) {
+            chatFormatterHandler = new LegacyChatFormatterHandler(this, luckPerms, placeholderAPIAvailable, defaultChatFormatEnabled, worldChatFormatsEnabled, groupRankFormatsEnabled, defaultChatFormat, worldChatFormats, groupRankFormats);
+        } else {
+            chatFormatterHandler = new ChatFormatterHandler(this,
+                    luckPerms,
+                    placeholderAPIAvailable,
+                    defaultChatFormatEnabled,
+                    worldChatFormatsEnabled,
+                    groupRankFormatsEnabled,
+                    defaultChatFormat,
+                    worldChatFormats,
+                    groupRankFormats);
+        }
+
         saveDefaultMessagesConfig();
 
         // Load messages
@@ -106,6 +127,22 @@ public class chat_formater_addon_for_chatmanger extends JavaPlugin implements Li
 
         // Load chat formats from config
         loadChatFormats();
+
+        // Initialize the legacy chat formatter handler
+        legacyChatFormatterHandler = new LegacyChatFormatterHandler(this, luckPerms, placeholderAPIAvailable, defaultChatFormatEnabled, worldChatFormatsEnabled, groupRankFormatsEnabled, defaultChatFormat, worldChatFormats, groupRankFormats);
+
+        // Initialize ChatFormatterHandler with correct parameters
+        chatFormatterHandler = new ChatFormatterHandler(
+                this,
+                luckPerms,
+                placeholderAPIAvailable,
+                defaultChatFormatEnabled,
+                worldChatFormatsEnabled,
+                groupRankFormatsEnabled,
+                defaultChatFormat,
+                worldChatFormats,
+                groupRankFormats
+        );
     }
 
     private void saveDefaultMessagesConfig() {
@@ -212,50 +249,9 @@ public class chat_formater_addon_for_chatmanger extends JavaPlugin implements Li
 
     @EventHandler(priority = EventPriority.HIGHEST)
     public void onPlayerChat(AsyncPlayerChatEvent event) {
-        String worldName = event.getPlayer().getWorld().getName();
-        FileConfiguration config = getConfig();
-
-        // Determine the default chat format
-        String format = defaultChatFormatEnabled ? defaultChatFormat : "%player_displayname%: %message%";
-
-        // Check if a specific format is defined for the current world
-        if (worldChatFormatsEnabled && worldChatFormats.containsKey(worldName)) {
-            format = worldChatFormats.get(worldName);
-        }
-
-        // Determine the player's group and apply group-specific format if available
-        User user = luckPerms.getUserManager().getUser(event.getPlayer().getUniqueId());
-        if (groupRankFormatsEnabled && user != null && groupRankFormats.containsKey(user.getPrimaryGroup())) {
-            format = groupRankFormats.get(user.getPrimaryGroup());
-        }
-
-        // Apply placeholders if PlaceholderAPI is available
-        if (placeholderAPIAvailable && Bukkit.getPluginManager().isPluginEnabled("PlaceholderAPI")) {
-            format = PlaceholderAPI.setPlaceholders(event.getPlayer(), format);
-        }
-
-        // Replace placeholders manually
-        format = format.replace("%player_displayname%", event.getPlayer().getDisplayName())
-                .replace("%player_name%", event.getPlayer().getName())
-                .replace("%message%", event.getMessage());
-
-        // Log the selected chat format before and after replacement for debugging purposes
-        getLogger().info("Selected chat format (before replacement): " + format);
-        format = ChatColor.translateAlternateColorCodes('&', format);
-        getLogger().info("Selected chat format (after replacement): " + format);
-
-        // Escape single '%' characters to avoid format issues
-        format = format.replace("%", "%%");
-
-
-        // Set the chat format
-        event.setFormat(format);
-
-        // Call custom ChatManagerEvent synchronously if needed
-        Bukkit.getScheduler().runTask(this, () -> {
-            ChatManagerEvent chatManagerEvent = new ChatManagerEvent(event.getMessage());
-            Bukkit.getServer().getPluginManager().callEvent(chatManagerEvent);
-        });
+        chatFormatterHandler.handleChatEvent(event);
+        // Handle the chat event using the legacy handler
+        legacyChatFormatterHandler.handleChatEvent(event);
     }
 
     // Getter and Setter methods for chat format settings
