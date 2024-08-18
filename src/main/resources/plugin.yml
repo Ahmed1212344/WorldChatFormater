@@ -10,15 +10,23 @@ commands:
   worldchatformat:
     description: "Main command for chat formatting"
     usage: "/worldchatformat <reload|toggleDefaultChatFormat|toggleWorldChatFormat|toggleGroupRankFormat>"
+    default: op
   wcf:
     description: "Alias for worldchatformat"
     usage: "/wcf <reload|toggleDefaultChatFormat|toggleWorldChatFormat|toggleGroupRankFormat>"
+    default: op
   toggleDefaultChatFormat:
     description: "Toggles default chat format"
     usage: "/toggleDefaultChatFormat"
+    permission: worldchatformat.toggle
+    permission-message: You do not have permission to toggle visibility.
   toggleWorldChatFormat:
     description: "Toggles world chat format"
     usage: "/toggleWorldChatFormat"
+    permission: worldchatformat.toggle
+    permission-message: You do not have permission to toggle visibility.
   toggleGroupRankFormat:
     description: "Toggles group rank format"
     usage: "/toggleGroupRankFormat"
+    permission: worldchatformat.toggle
+    permission-message: You do not have permission to toggle visibility.
